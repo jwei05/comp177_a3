@@ -1,0 +1,2 @@
+class Bar_chart {
+}
