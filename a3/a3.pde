@@ -1,9 +1,6 @@
 int[] hours;
 float[] temperatures;
 Graph data_g;
-//Bar_chart bar_chart;
-//Line_chart line_chart;
-//Pie_chart pie_chart;
 
 Button b_line, b_bar, b_pie;
 float panel_x;
@@ -45,7 +42,6 @@ void draw() {
   renderButtons();
   updateGraph();
   data_g.drawGraph();
-
   
 
   //renderChart();
@@ -115,9 +111,9 @@ void resettransitions(){
   bar_to_line = false;
   bar_to_pie  = false;
   pie_to_bar  = false;
-  //data_g.topoint = false;
-  //data_g.toconnect = false;
-  //data_g.growBar = false;
+  data_g.topoint = false;
+  data_g.toconnect = false;
+  data_g.growBar = false;
 }
 
 

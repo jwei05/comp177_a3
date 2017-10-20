@@ -174,17 +174,29 @@ class Graph{
           }
         }
     }
+    int total_bars = Bar_List.size();
+    
     if(growBar == true) {
       for(Bar b : Bar_List){
         if(b.bar_temp_h < b.bar_height){
           b.bar_temp_h = b.bar_temp_h + 2;
+        } else{
+          total_bars--;
         }
       } 
     }
+    //reset when all bars reach their full height
+    if (total_bars == 0) {
+     resettransitions(); 
+    }
   }
+  
+  //transition from bar to line
   void bar_line() {
+    
      for (Bar b : Bar_List){  
        if (b.bar_temp_h >= 2.5)  {
+         println("change height");
          b.bar_temp_h = b.bar_temp_h - 2;
        } else{
          topoint = true;
