@@ -15,8 +15,11 @@ float canvas_y;
 float canvas_width;
 float canvas_height;
 static int y_spacing = 25;
- 
-String state = "line";
+
+
+//button states 
+boolean pie_to_line, line_to_pie, line_to_bar, bar_to_line,
+        bar_to_pie, pie_to_bar = false;
 
 void setup(){
   size(900, 600);
@@ -42,16 +45,17 @@ void draw() {
   renderButtons();
   updateGraph();
   data_g.drawGraph();
-  data_g.drawBars();
+
 
   //renderChart();
 }
 
 void updateGraph(){
-  float before = data_g.x_ax_l;
-  data_g.x_ax_l = before - 10;
-  float ybefore = data_g.y_ax_l;
-  //data_g.y_ax_l = ybefore + 10;
+  if(bar_to_line == true) {
+     data_g.bar_line();
+  }
+  
+  //resettransitions();
   
 }
 
@@ -97,7 +101,18 @@ void init_graph(){
   float x_unit_len = x_axis_len / (hours.length + 1);
   float y_unit_len = y_num_marks*y_spacing / max(temperatures);
   data_g = new Graph(x_margin, y_margin, x_axis_len, y_axis_len, 
-                   x_unit_len, y_unit_len, "line");
+                   x_unit_len, y_unit_len, "Bar");
   
 }
+
+void resettransitions(){
+  pie_to_line = false;
+  line_to_pie = false;
+  line_to_bar = false; 
+  bar_to_line = false;
+  bar_to_pie  = false;
+  pie_to_bar  = false;
+}
+
+
   

@@ -14,7 +14,11 @@ class Graph{
   
   //Data storage
   ArrayList<Bar> Bar_List = new ArrayList<Bar>();
-  
+  ArrayList<Point> Point_List = new ArrayList<Point>();
+  ArrayList<Arc> Arc_List = new ArrayList<Arc>();
+  //boolean states
+  boolean topoint = false;
+  boolean toconnect = false;
   
   public Graph(float x_start, float y_start, float x_len, float y_len,
                                   float x_unit, float y_unit, String st){
@@ -34,6 +38,13 @@ class Graph{
   //draw the axis
     if (state != "Pie"){
       drawaxis();
+    }
+    if (state == "Line") {
+      drawPoints();
+    } else if (state == "Bar") {
+      drawBars();
+    } else {
+      drawArcs();
     }
   }
   
@@ -70,17 +81,34 @@ class Graph{
     //initialize bars
     float x_pos;
     float y_pos;
+    float pie_centerx = canvas_width/2;
+    float pie_centery = canvas_height/2;
     float h;
     float w;
+    float sum = get_sum();
+    float start_angle = 0;
+
     for(int i = 0; i < temperatures.length; i++){
       x_pos = x_margin + (i+0.66) * x_unit_l;
       y_pos= canvas_height - y_margin - temperatures[i]*y_unit_l;
       h = temperatures[i] * y_unit_l -1;
       w = 0.66 * x_unit_l;
+      
       Bar B = new Bar(x_pos, y_pos, w, h, temperatures[i], 
                        (x_pos + w + x_pos)/2, y_pos);
+      Point P = new Point((x_pos + w + x_pos)/2, y_pos, temperatures[i], hours[i]);
+      
+      //Calculate values to populate arc object
+      float curr_angle = 2 * PI * (temperatures[i]/sum);
+      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle);
+      start_angle += curr_angle;
+      
+      //populate arrays
+      Arc_List.add(A);
       Bar_List.add(B);
+      Point_List.add(P);
     }
+   
     
   }
   
@@ -90,5 +118,79 @@ class Graph{
     }
   }
   
+  void drawArcs(){
+    for(Arc a : Arc_List){
+       a.drawArc(); 
+    }
+  }
   
+  void drawPoints(){
+     for(Point p : Point_List){
+        p.drawPoint(); 
+     }
+     connectPoints();
+  }
+  
+  void connectPoints(){
+    float curr_x;
+    float curr_y;
+    float next_x;
+    float next_y;
+    
+     for(int i = 0; i < Point_List.size() - 1; i++){
+        Point curr = Point_List.get(i);
+        Point next = Point_List.get(i+1);
+        curr_x = curr.x_pos;
+        curr_y = curr.y_pos;
+        next_x = next.x_pos;
+        next_y = next.y_pos;
+        //connect points
+        line(curr_x, curr_y, next_x, next_y);
+     }
+  }
+  
+  void bar_line() {
+     for (Bar b : Bar_List){       
+       if (b.bar_temp_h >= 2.5)  {
+         b.bar_temp_h = b.bar_temp_h - 1;
+       } else {
+         topoint = true;
+       }
+     }
+     if (topoint == true) {
+       for (Bar b : Bar_List){
+          if(b.temp_w >= 2.5) {
+             b.temp_w = b.temp_w - .1;
+             b.temp_x = b.temp_x + .1;
+          }
+          toconnect = true;
+       }
+     }
+     if (toconnect == true){
+       float curr_x;
+       float curr_y;
+       float next_x;
+       float next_y;
+    
+     for( int i = 0; i < Bar_List.size() - 1; i++){
+        Bar curr = Bar_List.get(i);
+        Bar next = Bar_List.get(i+1);
+        curr_x = curr.x_pos;
+        curr_y = curr.y_pos;
+        next_x = curr_x + 1;
+        next_y = next.y_pos;
+        //connect points
+        line(curr_x, curr_y, next_x, next_y);
+     }
+     }
+     
+  }
+  
+  float get_sum() {
+    float sum = 0;
+    for (int i = 0; i < temperatures.length; i++) {
+      sum += temperatures[i];
+    }
+    return sum;
+  } 
 }
