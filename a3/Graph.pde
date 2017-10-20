@@ -19,6 +19,7 @@ class Graph{
   //boolean states
   boolean topoint = false;
   boolean toconnect = false;
+  boolean growBar = false;
   
   public Graph(float x_start, float y_start, float x_len, float y_len,
                                   float x_unit, float y_unit, String st){
@@ -156,27 +157,36 @@ class Graph{
     float bar_w = model_b.bar_width;
     float x, y, h;
     float w = model_p.pt_dimension;
-    for (Point p : Point_List){
-        drawPoints(false);
-        state = "Bar";
+    
+    //disconnect all points
+    if (state == "Line") {
+      drawPoints(false);
     }
+    state = "Bar";
     if (state == "Bar"){
-        for(Point p : Point_List){
-          if (p.pt_dimension < bar_w){
-             x = p.x_pos;
-             y = p.y_pos;
-             w = p.pt_dimension + 1;
-             p.pt_dimension++;
-             p.elongate(x, y, w, 1);
+        for(Bar b : Bar_List){
+          if (b.temp_w < b.bar_width){
+            //println("update");
+             b.temp_w = b.temp_w + 1;
+             b.temp_x = b.temp_x - .5;
+          } else {
+            growBar = true;
           }
         }
     }
+    if(growBar == true) {
+      for(Bar b : Bar_List){
+        if(b.bar_temp_h < b.bar_height){
+          b.bar_temp_h = b.bar_temp_h + 2;
+        }
+      } 
+    }
   }
   void bar_line() {
-     for (Bar b : Bar_List){       
+     for (Bar b : Bar_List){  
        if (b.bar_temp_h >= 2.5)  {
          b.bar_temp_h = b.bar_temp_h - 2;
-       } else {
+       } else{
          topoint = true;
        }
      }
@@ -186,12 +196,15 @@ class Graph{
              b.temp_w = b.temp_w - 1;
              b.temp_x = b.temp_x + .5;
           } else {
+            println("changed");
             toconnect = true;
           }
        }
      }
      if (toconnect == true){
          state = "Line";
+         //toconnect = false;
+         resettransitions();
      }
 }
   

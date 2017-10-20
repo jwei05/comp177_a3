@@ -46,19 +46,19 @@ void draw() {
   updateGraph();
   data_g.drawGraph();
 
+  
 
   //renderChart();
 }
 
 void updateGraph(){
   if(bar_to_line == true) {
+    //println("2nd");
      data_g.bar_line();
   }
   if(line_to_bar == true) {
     data_g.line_bar();
   }
-  
-  //resettransitions();
   
 }
 
@@ -115,6 +115,9 @@ void resettransitions(){
   bar_to_line = false;
   bar_to_pie  = false;
   pie_to_bar  = false;
+  //data_g.topoint = false;
+  //data_g.toconnect = false;
+  //data_g.growBar = false;
 }
 
 
