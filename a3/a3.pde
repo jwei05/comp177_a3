@@ -54,6 +54,9 @@ void updateGraph(){
   if(bar_to_line == true) {
      data_g.bar_line();
   }
+  if(line_to_bar == true) {
+    data_g.line_bar();
+  }
   
   //resettransitions();
   

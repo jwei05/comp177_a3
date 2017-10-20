@@ -16,6 +16,9 @@ class Point{
   void drawPoint(){
      rect(x_pos - (pt_dimension/2), y_pos - (pt_dimension/2), pt_dimension, pt_dimension);  
   }
+  void elongate(float x, float y, float w, float h){
+     rect(x, y, w, h); 
+  }
   
   
   

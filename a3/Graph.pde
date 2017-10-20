@@ -40,7 +40,7 @@ class Graph{
       drawaxis();
     }
     if (state == "Line") {
-      drawPoints();
+      drawPoints(true);
     } else if (state == "Bar") {
       drawBars();
     } else {
@@ -124,11 +124,13 @@ class Graph{
     }
   }
   
-  void drawPoints(){
+  void drawPoints(boolean withline){
      for(Point p : Point_List){
         p.drawPoint(); 
      }
-     connectPoints();
+     if (withline){
+       connectPoints();
+     }
   }
   
   void connectPoints(){
@@ -148,11 +150,32 @@ class Graph{
         line(curr_x, curr_y, next_x, next_y);
      }
   }
-  
+  void line_bar(){
+    Bar model_b = Bar_List.get(0);
+    Point model_p = Point_List.get(0);
+    float bar_w = model_b.bar_width;
+    float x, y, h;
+    float w = model_p.pt_dimension;
+    for (Point p : Point_List){
+        drawPoints(false);
+        state = "Bar";
+    }
+    if (state == "Bar"){
+        for(Point p : Point_List){
+          if (p.pt_dimension < bar_w){
+             x = p.x_pos;
+             y = p.y_pos;
+             w = p.pt_dimension + 1;
+             p.pt_dimension++;
+             p.elongate(x, y, w, 1);
+          }
+        }
+    }
+  }
   void bar_line() {
      for (Bar b : Bar_List){       
        if (b.bar_temp_h >= 2.5)  {
-         b.bar_temp_h = b.bar_temp_h - 1;
+         b.bar_temp_h = b.bar_temp_h - 2;
        } else {
          topoint = true;
        }
@@ -160,31 +183,17 @@ class Graph{
      if (topoint == true) {
        for (Bar b : Bar_List){
           if(b.temp_w >= 2.5) {
-             b.temp_w = b.temp_w - .1;
-             b.temp_x = b.temp_x + .1;
+             b.temp_w = b.temp_w - 1;
+             b.temp_x = b.temp_x + .5;
+          } else {
+            toconnect = true;
           }
-          toconnect = true;
        }
      }
      if (toconnect == true){
-       float curr_x;
-       float curr_y;
-       float next_x;
-       float next_y;
-    
-     for( int i = 0; i < Bar_List.size() - 1; i++){
-        Bar curr = Bar_List.get(i);
-        Bar next = Bar_List.get(i+1);
-        curr_x = curr.x_pos;
-        curr_y = curr.y_pos;
-        next_x = curr_x + 1;
-        next_y = next.y_pos;
-        //connect points
-        line(curr_x, curr_y, next_x, next_y);
+         state = "Line";
      }
-     }
-     
-  }
+}
   
   float get_sum() {
     float sum = 0;
