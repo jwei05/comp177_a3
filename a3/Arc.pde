@@ -14,11 +14,12 @@ class Arc{
   float temp_stop;
   float x_pos;
   float y_pos;
+  // variables for curved arc from line
   float arc_cent_xpos;
   float arc_cent_ypos;
   float arc_mid_x;
   float arc_mid_y;
-  
+
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
      center_y = y;
@@ -29,9 +30,7 @@ class Arc{
      getArcLen();
      x_pos = bar_x_pos;
      y_pos = bar_y_pos;
-     init_temps();
-     calc_arctopie_pos();
-     
+     init_temps();    
   }
   
   void drawArc(){
@@ -58,8 +57,8 @@ class Arc{
   }
   
   void calc_arctopie_pos(float accum_angle) {
-      arc_mid_x = center_x + sin(accum_angle/2);
-      arc_mid_y = center_y - cos(accum_angle/2);
+      arc_mid_x = center_x + r * cos(accum_angle);
+      arc_mid_y = center_y - r * sin(accum_angle);
       arc_cent_xpos = arc_mid_x - r; 
       arc_cent_ypos = arc_mid_y;
   }

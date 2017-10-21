@@ -111,9 +111,22 @@ class Graph{
       Arc_List.add(A);
       Bar_List.add(B);
       Point_List.add(P);
-    }
-   
-    
+    } 
+    //popoulates arc class with the position it should be on the pie
+      float accum_angle = 0;
+      for (int i = 0; i < Arc_List.size(); i++) {
+        Arc c = Arc_List.get(i);
+        if (i != Arc_List.size() - 1){
+          Arc next = Arc_List.get(i + 1);
+          c.calc_arctopie_pos(accum_angle);
+          float curr_angle = c.portion * 2 * PI;
+          float next_angle = next.portion * 2 * PI;
+          accum_angle = accum_angle + curr_angle/2 + next_angle/2;
+        } else {
+          c.calc_arctopie_pos(accum_angle); 
+        }
+//           line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
+      }
   }
   
   void drawBars(){
@@ -238,6 +251,7 @@ class Graph{
        }
      }
      
+     // shrink to lines
      if (num_bars == 0) {
        for (Bar b : Bar_List){
           if(b.temp_w >= 1.5) {
@@ -248,29 +262,35 @@ class Graph{
           }
        }
      }
-     
+     //curves all the arc
      if (toArc){
          state = "Pie";
          for (Arc a : Arc_List) {
            if (a.temp_r > a.r) {
-             a.temp_r -=100;
+             a.temp_r -= 100;
              a.temp_center_x = a.x_pos - a.temp_r;
              float x_axis_y = canvas_height - y_margin;
              a.temp_center_y = (x_axis_y - a.arc_len + x_axis_y) /2;
-             float circumference = 2*a.temp_r*PI;
+             float circumference = 2 * a.temp_r * PI;
              a.temp_portion = a.arc_len / circumference;
-             a.temp_start = -2*PI*a.temp_portion/2;
-             a.temp_stop = 2*PI*a.temp_portion/2;
+             a.temp_start = -2 * PI * a.temp_portion/2;
+             a.temp_stop = 2 * PI * a.temp_portion/2;
            }
            else {
              moveArcs = true;
-             float 
            }
          }
      }
-     
      if (moveArcs == true) {
        // move the arcs!!
+       int num_arcs = Arc_List.size();
+       for( int i = 0; i < num_arcs; i++) {
+          Arc temp = Arc_List.get(i);
+          // TODO: calcualte distances
+          if ( temp.temp_center_x != temp.arc_cent_xpos) {
+            //temp.temp_center_x = 
+          }
+       }
        
      }  
   }
