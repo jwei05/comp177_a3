@@ -55,6 +55,12 @@ void updateGraph(){
   if(line_to_bar == true) {
     data_g.line_bar();
   }
+  if(bar_to_pie == true) {
+    data_g.bar_pie();
+  }
+  if(pie_to_bar == true) {
+    data_g.pie_bar(); 
+  }
   
 }
 
@@ -105,13 +111,15 @@ void init_graph(){
 }
 
 void resettransitions(){
+  //transition states
   pie_to_line = false;
   line_to_pie = false;
   line_to_bar = false; 
   bar_to_line = false;
   bar_to_pie  = false;
   pie_to_bar  = false;
-  data_g.topoint = false;
+  
+  //during transition states
   data_g.toconnect = false;
   data_g.growBar = false;
 }

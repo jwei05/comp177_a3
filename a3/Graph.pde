@@ -17,7 +17,6 @@ class Graph{
   ArrayList<Point> Point_List = new ArrayList<Point>();
   ArrayList<Arc> Arc_List = new ArrayList<Arc>();
   //boolean states
-  boolean topoint = false;
   boolean toconnect = false;
   boolean growBar = false;
   
@@ -166,7 +165,6 @@ class Graph{
     if (state == "Bar"){
         for(Bar b : Bar_List){
           if (b.temp_w < b.bar_width){
-            //println("update");
              b.temp_w = b.temp_w + 1;
              b.temp_x = b.temp_x - .5;
           } else {
@@ -187,39 +185,60 @@ class Graph{
     }
     //reset when all bars reach their full height
     if (total_bars == 0) {
-     resettransitions(); 
+      resettransitions(); 
     }
   }
   
   //transition from bar to line
   void bar_line() {
-    
+     int num_bars = Bar_List.size();
      for (Bar b : Bar_List){  
        if (b.bar_temp_h >= 2.5)  {
-         println("change height");
          b.bar_temp_h = b.bar_temp_h - 2;
        } else{
-         topoint = true;
+         num_bars--;
        }
      }
-     if (topoint == true) {
+     
+     if (num_bars == 0) {
        for (Bar b : Bar_List){
           if(b.temp_w >= 2.5) {
              b.temp_w = b.temp_w - 1;
              b.temp_x = b.temp_x + .5;
           } else {
-            println("changed");
             toconnect = true;
           }
        }
      }
-     if (toconnect == true){
+     if (toconnect){
          state = "Line";
-         //toconnect = false;
          resettransitions();
      }
-}
+  }
   
+  //transition from bar to pie
+  void bar_pie(){
+    int num_bars = Bar_List.size();
+     for (Bar b : Bar_List){  
+       if (b.bar_temp_h  2.5)  {
+         b.bar_temp_h = b.bar_temp_h - 2;
+       } else{
+         num_bars--;
+       }
+     }
+     
+     if (num_bars == 0) {
+       for (Bar b : Bar_List){
+          if(b.temp_w >= 2.5) {
+             b.temp_w = b.temp_w - 1;
+             b.temp_x = b.temp_x + .5;
+          } else {
+            toconnect = true;
+          }
+       }
+     }
+    
+  }
   float get_sum() {
     float sum = 0;
     for (int i = 0; i < temperatures.length; i++) {
