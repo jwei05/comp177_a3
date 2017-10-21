@@ -58,9 +58,9 @@ void updateGraph(){
   if(bar_to_pie == true) {
     data_g.bar_pie();
   }
-  if(pie_to_bar == true) {
-    data_g.pie_bar(); 
-  }
+  //if(pie_to_bar == true) {
+  //  data_g.pie_bar(); 
+  //}
   
 }
 

@@ -19,6 +19,7 @@ class Graph{
   //boolean states
   boolean toconnect = false;
   boolean growBar = false;
+  boolean toArc = false;
   
   public Graph(float x_start, float y_start, float x_len, float y_len,
                                   float x_unit, float y_unit, String st){
@@ -100,7 +101,8 @@ class Graph{
       
       //Calculate values to populate arc object
       float curr_angle = 2 * PI * (temperatures[i]/sum);
-      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle);
+      float portion = temperatures[i]/sum;
+      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion);
       start_angle += curr_angle;
       
       //populate arrays
@@ -218,9 +220,16 @@ class Graph{
   
   //transition from bar to pie
   void bar_pie(){
+  
+    // shrink all the bars to arc's length
     int num_bars = Bar_List.size();
-     for (Bar b : Bar_List){  
-       if (b.bar_temp_h  2.5)  {
+    int size = Bar_List.size();
+     for (int i = 0; i < size; i++){  
+       Arc a = Arc_List.get(i);
+       Bar b = Bar_List.get(i);
+
+       if (b.bar_temp_h > a.arc_len)  {
+         b.temp_y += 2;
          b.bar_temp_h = b.bar_temp_h - 2;
        } else{
          num_bars--;
@@ -229,14 +238,25 @@ class Graph{
      
      if (num_bars == 0) {
        for (Bar b : Bar_List){
-          if(b.temp_w >= 2.5) {
+          if(b.temp_w >= 1.5) {
              b.temp_w = b.temp_w - 1;
              b.temp_x = b.temp_x + .5;
           } else {
-            toconnect = true;
+            toArc = true;
           }
        }
      }
+     
+     if (toArc){
+         //state = "Line";
+         resettransitions();
+     }
+    
+    // curve them
+    
+    
+    
+    // move the arcs to their positions in the circle
     
   }
   float get_sum() {
