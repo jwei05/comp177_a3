@@ -105,6 +105,7 @@ class Graph{
       float portion = temperatures[i]/sum;
       Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos);
       start_angle += curr_angle;
+      //A.calc_arctopie_pos();
       
       //populate arrays
       Arc_List.add(A);
@@ -263,12 +264,14 @@ class Graph{
            }
            else {
              moveArcs = true;
+             float 
            }
-         } 
+         }
      }
      
      if (moveArcs == true) {
        // move the arcs!!
+       
      }  
   }
   float get_sum() {

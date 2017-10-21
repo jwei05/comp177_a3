@@ -16,6 +16,8 @@ class Arc{
   float y_pos;
   float arc_cent_xpos;
   float arc_cent_ypos;
+  float arc_mid_x;
+  float arc_mid_y;
   
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
@@ -55,10 +57,11 @@ class Arc{
     temp_stop = 2*PI*temp_portion/2;
   }
   
-  void calc_arctopie_pos(float prev_angle) {
-      
-      arc_cent_xpos;
-      arc_cent_ypos;
+  void calc_arctopie_pos(float accum_angle) {
+      arc_mid_x = center_x + sin(accum_angle/2);
+      arc_mid_y = center_y - cos(accum_angle/2);
+      arc_cent_xpos = arc_mid_x - r; 
+      arc_cent_ypos = arc_mid_y;
   }
   
   
