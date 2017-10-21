@@ -20,6 +20,7 @@ class Graph{
   boolean toconnect = false;
   boolean growBar = false;
   boolean toArc = false;
+  boolean moveArcs = false;
   
   public Graph(float x_start, float y_start, float x_len, float y_len,
                                   float x_unit, float y_unit, String st){
@@ -102,7 +103,7 @@ class Graph{
       //Calculate values to populate arc object
       float curr_angle = 2 * PI * (temperatures[i]/sum);
       float portion = temperatures[i]/sum;
-      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion);
+      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos);
       start_angle += curr_angle;
       
       //populate arrays
@@ -248,16 +249,27 @@ class Graph{
      }
      
      if (toArc){
-         //state = "Line";
-         resettransitions();
+         state = "Pie";
+         for (Arc a : Arc_List) {
+           if (a.temp_r > a.r) {
+             a.temp_r -=100;
+             a.temp_center_x = a.x_pos - a.temp_r;
+             float x_axis_y = canvas_height - y_margin;
+             a.temp_center_y = (x_axis_y - a.arc_len + x_axis_y) /2;
+             float circumference = 2*a.temp_r*PI;
+             a.temp_portion = a.arc_len / circumference;
+             a.temp_start = -2*PI*a.temp_portion/2;
+             a.temp_stop = 2*PI*a.temp_portion/2;
+           }
+           else {
+             moveArcs = true;
+           }
+         } 
      }
-    
-    // curve them
-    
-    
-    
-    // move the arcs to their positions in the circle
-    
+     
+     if (moveArcs == true) {
+       // move the arcs!!
+     }  
   }
   float get_sum() {
     float sum = 0;

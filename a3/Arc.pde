@@ -9,10 +9,13 @@ class Arc{
   float temp_center_x;
   float temp_center_y;
   float temp_portion;
+  float temp_r;
   float temp_start;
   float temp_stop;
+  float x_pos;
+  float y_pos;
   
-  public Arc(float x, float y, float Start, float End, float Portion){
+  public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
      center_y = y;
      r = .4 * min(canvas_height, canvas_width);
@@ -20,11 +23,15 @@ class Arc{
      stop = End;
      portion = Portion;
      getArcLen();
+     x_pos = bar_x_pos;
+     y_pos = bar_y_pos;
+     init_temps();
   }
   
   void drawArc(){
      ellipseMode(CENTER);
-     arc(center_x, center_y, r*2, r*2, start, stop); 
+     noFill();
+     arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
   }
   
   void getArcLen() {
@@ -32,8 +39,17 @@ class Arc{
     arc_len = circumference * portion;
   }
   
-  
-  // TODO: initialize all the temps
+ 
+  void init_temps() {
+    float x_axis_y = canvas_height - y_margin;
+    temp_r = 10300;
+    temp_center_x = x_pos - temp_r;
+    temp_center_y = (x_axis_y - arc_len + x_axis_y) /2;
+    float circumference = 2*temp_r*PI;
+    temp_portion = arc_len / circumference;
+    temp_start = -2*PI*temp_portion/2;
+    temp_stop = 2*PI*temp_portion/2;
+  }
   
   
 }

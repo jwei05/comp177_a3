@@ -11,6 +11,8 @@ float canvas_x;
 float canvas_y;
 float canvas_width;
 float canvas_height;
+float x_margin;
+float y_margin;
 static int y_spacing = 25;
 
 
@@ -29,6 +31,8 @@ void setup(){
   canvas_y = 0;
   canvas_width = width;
   canvas_height = 5 *height/6;
+  x_margin = canvas_width / 12;
+  y_margin = canvas_height / 7.5;
   
   parseData();
   init_graph();
@@ -98,8 +102,6 @@ void renderButtons(){
 }
 
 void init_graph(){
-  float x_margin = canvas_width / 12;
-  float y_margin = canvas_height / 7.5;
   float x_axis_len = canvas_width - 2*x_margin;
   float y_axis_len = canvas_height - 2*y_margin;
   float y_num_marks = y_axis_len/y_spacing;
@@ -122,6 +124,8 @@ void resettransitions(){
   //during transition states
   data_g.toconnect = false;
   data_g.growBar = false;
+  data_g.toArc = false;
+  data_g.moveArcs = false;
 }
 
 
