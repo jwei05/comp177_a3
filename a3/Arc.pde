@@ -19,6 +19,8 @@ class Arc{
   float arc_cent_ypos;
   float arc_mid_x;
   float arc_mid_y;
+  float x_dist;
+  float y_dist;
 
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
@@ -33,10 +35,17 @@ class Arc{
      init_temps();    
   }
   
-  void drawArc(){
+  void drawArc(boolean translate){
      ellipseMode(CENTER);
      noFill();
-     arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
+     if (translate) {
+       translate(arc_mid_x, arc_mid_y);
+       rotate(PI/2);
+       arc(temp_center_x - arc_mid_x, temp_center_y - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
+     }
+     else {
+       arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
+     }
   }
   
   void getArcLen() {
@@ -61,6 +70,8 @@ class Arc{
       arc_mid_y = center_y - r * sin(accum_angle);
       arc_cent_xpos = arc_mid_x - r; 
       arc_cent_ypos = arc_mid_y;
+      //x_dist = arc_cent_xpos - temp_center_x;
+      //y_dist = arc_cent_ypos - temp_center_y;
   }
   
   

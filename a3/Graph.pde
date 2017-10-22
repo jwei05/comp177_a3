@@ -137,7 +137,7 @@ class Graph{
   
   void drawArcs(){
     for(Arc a : Arc_List){
-       a.drawArc(); 
+       a.drawArc(false); 
        line(a.arc_cent_xpos, a.arc_cent_ypos, a.arc_mid_x, a.arc_mid_y);
     }
   }
@@ -236,7 +236,6 @@ class Graph{
   
   //transition from bar to pie
   void bar_pie(){
-  
     // shrink all the bars to arc's length
     int num_bars = Bar_List.size();
     int size = Bar_List.size();
@@ -282,21 +281,50 @@ class Graph{
            }
          }
      }
+     
+     int num_arcs = Arc_List.size();
      if (moveArcs == true) {
        // move the arcs!!
-       int num_arcs = Arc_List.size();
-       for( int i = 0; i < num_arcs; i++) {
+       for( int i = 0; i < Arc_List.size(); i++) {
           Arc temp = Arc_List.get(i);
-          //line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
-          // TODO: calcualte distances
-          //if ( temp.temp_center_x != temp.arc_cent_xpos) {
-          //  //temp.temp_center_x = 
-          //}
+          float x_dist = temp.arc_cent_xpos - temp.temp_center_x;
+          float y_dist = temp.arc_cent_ypos - temp.temp_center_y;
+          
+          // TODO: temp.x_dist not moving why??
+          if (x_dist < 0) {
+            if (temp.arc_cent_xpos < temp.temp_center_x ) {
+              temp.temp_center_x -=1;
+            }
+          } else {
+            if (temp.arc_cent_xpos > temp.temp_center_x ) {
+              temp.temp_center_x +=1;
+            }
+          }
+          
+          if (y_dist < 0) {
+            if (temp.arc_cent_ypos < temp.temp_center_y ) {
+              temp.temp_center_y -=1;
+            }
+          } else {
+            if (temp.arc_cent_ypos > temp.temp_center_y ) {
+              temp.temp_center_y +=1;
+            }
+          }
+          
+          if (abs(x_dist) < 1 && abs(y_dist) < 1) {
+            num_arcs -= 1;
+          }
        }
-       
-     }  
+     }
+     
+     if (num_arcs == 0) {
+       for (Arc a : Arc_List) {
+         //a.drawArc(true);
+       }
+     }
   }
-  float get_sum() {
+  
+  float get_sum(){
     float sum = 0;
     for (int i = 0; i < temperatures.length; i++) {
       sum += temperatures[i];
