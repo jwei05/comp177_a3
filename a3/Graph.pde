@@ -125,7 +125,7 @@ class Graph{
         } else {
           c.calc_arctopie_pos(accum_angle); 
         }
-//           line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
+           //line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
       }
   }
   
@@ -138,6 +138,7 @@ class Graph{
   void drawArcs(){
     for(Arc a : Arc_List){
        a.drawArc(); 
+       line(a.arc_cent_xpos, a.arc_cent_ypos, a.arc_mid_x, a.arc_mid_y);
     }
   }
   
@@ -286,10 +287,11 @@ class Graph{
        int num_arcs = Arc_List.size();
        for( int i = 0; i < num_arcs; i++) {
           Arc temp = Arc_List.get(i);
+          //line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
           // TODO: calcualte distances
-          if ( temp.temp_center_x != temp.arc_cent_xpos) {
-            //temp.temp_center_x = 
-          }
+          //if ( temp.temp_center_x != temp.arc_cent_xpos) {
+          //  //temp.temp_center_x = 
+          //}
        }
        
      }  
