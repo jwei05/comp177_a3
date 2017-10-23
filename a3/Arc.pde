@@ -14,6 +14,7 @@ class Arc{
   float temp_stop;
   float x_pos;
   float y_pos;
+  
   // variables for curved arc from line
   float arc_cent_xpos;
   float arc_cent_ypos;
@@ -46,7 +47,6 @@ class Arc{
      ellipseMode(CENTER);
      noFill();
      if(!completePie){
-       println("
        if (translate) {
          pushMatrix();
          translate(arc_mid_x, arc_mid_y);
@@ -58,8 +58,8 @@ class Arc{
          arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
        }
     } else {
-        println("actual pie");
-        arc(center_x, center_y, r*2, r*2, start, stop); 
+        fill(123);
+        arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
     }
   }
   

@@ -131,6 +131,6 @@ void resettransitions(){
   ArrayList<Arc> temp_arclist = data_g.Arc_List;
   for(Arc a : temp_arclist) {
      a.translate = false;
-     a.completePie = false;
+     //a.completePie = ;
   }  
 }
