@@ -351,6 +351,8 @@ class Graph{
      }
      
   }
+  
+  
   //pie to bar transition
   void pie_bar() {
     int count = 0;
@@ -363,36 +365,50 @@ class Graph{
          count++;
        }
     }
+    
+    // move the curves back to their bar position
     int num_arc = Arc_List.size();
-    //move the curves back to their bar position
-    if (count == Arc_List.size()){
-      for(Arc a : Arc_List) {
-          float x_dist =  a.center_x - a.temp_center_x;
-          float y_dist = a.center_y - a.temp_center_y;
-          println("xd: " +  x_dist + " yd: " + y_dist);
-          if (x_dist > 0) {
-            if (a.temp_center_x < a.center_x ) {
-              a.temp_center_x +=1;
-            }
-          } else {
-            if (a.temp_center_x > a.center_x ) {
-              a.temp_center_x -=1;
-            }
+    float x_axis_y = canvas_height - y_margin;
+    if (count == Arc_List.size()) {
+      for(int i = 0; i< Arc_List.size(); i++) {
+        Arc a = Arc_List.get(i);
+        Bar b = Bar_List.get(i);
+        a.translate = false;
+        //println("BAR: " + (b.x_pos + b.x_pos + b.bar_width)/2 + " " + (b.y_pos + b.bar_height));
+        float x_destination = a.x_pos - a.r;
+        float y_destination = x_axis_y;
+        //println("x, y des ", x_destination + a.r, y_destination);
+        float x_dist = x_destination - a.temp_center_x;
+        float y_dist = y_destination - a.temp_center_y;
+        
+        println("x y dist" + x_dist + " " + y_dist);
+        if (x_dist > 0) {
+          if (a.temp_center_x < x_destination ) {
+            a.temp_center_x +=1;
           }
-          if (y_dist < 0) {
-            if (a.temp_center_y < a.center_y ) {
-              a.temp_center_y +=1;
-            }
-          } else {
-            if (a.temp_center_y > a.center_y ) {
-              a.temp_center_y -=1;
-            }
+        } else {
+          if (a.temp_center_x > x_destination) {
+            a.temp_center_x -=1;
           }
-          if (abs(x_dist) < 1 && abs(y_dist) < 1) {
-            num_arc -= 1;
+        }
+        if (y_dist < 0) {
+          if (a.temp_center_y > y_destination) {
+            a.temp_center_y -=1;
           }
-          
+        } else {
+          if (a.temp_center_y < y_destination ) {
+            a.temp_center_y +=1;
+          }
+        }
+        
+        if (abs(x_dist) < 1 && abs(y_dist) < 1) {
+          num_arc -= 1;
+        }
       }
+    }
+    
+    if (num_arc == 0 ){
+      // TODO: from arc to straight lines
     }
   }
   float get_sum(){

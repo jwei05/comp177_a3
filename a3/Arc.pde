@@ -60,9 +60,9 @@ class Arc{
          arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop);  
        }
     } else {
+       // draw the real pie
         fill(123);
-        //if(completePie){
-          arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
+        arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
         //}   
     }
   }
