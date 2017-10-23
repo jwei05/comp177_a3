@@ -137,8 +137,8 @@ class Graph{
   
   void drawArcs(){
     for(Arc a : Arc_List){
-       a.drawArc(false); 
-       line(a.arc_cent_xpos, a.arc_cent_ypos, a.arc_mid_x, a.arc_mid_y);
+       a.drawArc(); 
+       //line(a.arc_cent_xpos, a.arc_cent_ypos, a.arc_mid_x, a.arc_mid_y);
     }
   }
   
@@ -318,9 +318,21 @@ class Graph{
      }
      
      if (num_arcs == 0) {
-       for (Arc a : Arc_List) {
-         //a.drawArc(true);
+       num_arcs = Arc_List.size();
+       for(int i = 0; i < Arc_List.size(); i++){
+         Arc torotate = Arc_List.get(i);
+         torotate.translate = true;
+         if(torotate.temp_angle < torotate.accum_angle) {
+            torotate.temp_angle += (PI/50); 
+         } else {
+            num_arcs--; 
+         }
        }
+     }
+     //draw the lines for the wedges
+     if (num_arcs == 0){
+       
+       
      }
   }
   

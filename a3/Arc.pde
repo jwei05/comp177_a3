@@ -19,8 +19,14 @@ class Arc{
   float arc_cent_ypos;
   float arc_mid_x;
   float arc_mid_y;
-  float x_dist;
-  float y_dist;
+  float arc_start_x;
+  float arc_start_y;
+  float arc_end_x;
+  float arc_end_y;
+
+  float accum_angle;
+  float temp_angle;
+  boolean translate;
 
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
@@ -35,13 +41,15 @@ class Arc{
      init_temps();    
   }
   
-  void drawArc(boolean translate){
+  void drawArc(){
      ellipseMode(CENTER);
      noFill();
      if (translate) {
+       pushMatrix();
        translate(arc_mid_x, arc_mid_y);
-       rotate(PI/2);
-       arc(temp_center_x - arc_mid_x, temp_center_y - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
+       rotate( -temp_angle);
+       arc(arc_cent_xpos - arc_mid_x, arc_cent_ypos - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
+       popMatrix();
      }
      else {
        arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
@@ -59,19 +67,23 @@ class Arc{
     temp_r = 10300;
     temp_center_x = x_pos - temp_r;
     temp_center_y = (x_axis_y - arc_len + x_axis_y) /2;
-    float circumference = 2*temp_r*PI;
+    float circumference = 2 * temp_r * PI;
     temp_portion = arc_len / circumference;
-    temp_start = -2*PI*temp_portion/2;
-    temp_stop = 2*PI*temp_portion/2;
+    temp_start = -2 * PI * temp_portion/2;
+    temp_stop = 2 * PI * temp_portion/2;
   }
   
-  void calc_arctopie_pos(float accum_angle) {
-      arc_mid_x = center_x + r * cos(accum_angle);
-      arc_mid_y = center_y - r * sin(accum_angle);
+  void calc_arctopie_pos(float Accum_Angle) {
+      arc_mid_x = center_x + r * cos(Accum_Angle);
+      arc_mid_y = center_y - r * sin(Accum_Angle);
       arc_cent_xpos = arc_mid_x - r; 
       arc_cent_ypos = arc_mid_y;
-      //x_dist = arc_cent_xpos - temp_center_x;
-      //y_dist = arc_cent_ypos - temp_center_y;
+      accum_angle = Accum_Angle;
+      //arc_start_x = 
+      //arc_start_y =
+      //arc_end_x = 
+      //arc_end_y =
+
   }
   
   
