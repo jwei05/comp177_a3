@@ -1,5 +1,6 @@
 class Arc{
   float r;
+  float perm_r;
   float center_x;
   float center_y;
   float start;
@@ -36,6 +37,7 @@ class Arc{
      center_x = x;
      center_y = y;
      r = .4 * min(canvas_height, canvas_width);
+     perm_r = r;
      start = Start;
      stop = End;
      portion = Portion;
@@ -62,7 +64,7 @@ class Arc{
     } else {
        // draw the real pie
         fill(123);
-        arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
+        arc(center_x, center_y, perm_r*2, perm_r*2, start, stop, PIE); 
         //}   
     }
   }

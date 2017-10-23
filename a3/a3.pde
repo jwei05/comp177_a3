@@ -127,10 +127,11 @@ void resettransitions(){
   data_g.growBar = false;
   data_g.toArc = false;
   data_g.moveArcs = false;
+  
 
   ArrayList<Arc> temp_arclist = data_g.Arc_List;
   for(Arc a : temp_arclist) {
      a.translate = false;
-    //a.completePie = false;
+     //a.completePie = false;
   }  
 }

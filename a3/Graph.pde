@@ -264,9 +264,11 @@ class Graph{
      }
      //curves all the arc
      if (toArc){
+         println( "SHOUL");
          state = "Pie";
          for (Arc a : Arc_List) {
-           if (a.temp_r > a.r) {
+           if (a.temp_r > a.perm_r) {
+             println("::: " + a.temp_r + " " + a.perm_r);
              a.temp_r -= 100;
              a.temp_center_x = a.x_pos - a.temp_r;
              float x_axis_y = canvas_height - y_margin;
@@ -284,13 +286,13 @@ class Graph{
      
      int num_arcs = Arc_List.size();
      if (moveArcs == true) {
+       println("MOVE ARC");
        // move the arcs!!
        for( int i = 0; i < Arc_List.size(); i++) {
           Arc temp = Arc_List.get(i);
           float x_dist = temp.arc_cent_xpos - temp.temp_center_x;
           float y_dist = temp.arc_cent_ypos - temp.temp_center_y;
           
-          // TODO: temp.x_dist not moving why??
           if (x_dist < 0) {
             if (temp.arc_cent_xpos < temp.temp_center_x ) {
               temp.temp_center_x -=1;
@@ -372,16 +374,15 @@ class Graph{
     if (count == Arc_List.size()) {
       for(int i = 0; i< Arc_List.size(); i++) {
         Arc a = Arc_List.get(i);
-        Bar b = Bar_List.get(i);
         a.translate = false;
         //println("BAR: " + (b.x_pos + b.x_pos + b.bar_width)/2 + " " + (b.y_pos + b.bar_height));
         float x_destination = a.x_pos - a.r;
-        float y_destination = x_axis_y;
+        float y_destination = x_axis_y - a.arc_len/2;
         //println("x, y des ", x_destination + a.r, y_destination);
         float x_dist = x_destination - a.temp_center_x;
         float y_dist = y_destination - a.temp_center_y;
         
-        println("x y dist" + x_dist + " " + y_dist);
+        //println("x y dist" + x_dist + " " + y_dist);
         if (x_dist > 0) {
           if (a.temp_center_x < x_destination ) {
             a.temp_center_x +=1;
@@ -406,10 +407,54 @@ class Graph{
         }
       }
     }
-    
     if (num_arc == 0 ){
-      // TODO: from arc to straight lines
+      for(Arc a : Arc_List){
+        if (a.r < 10300) {
+               a.r = a.r + 100;
+               a.temp_r = a.r;
+               a.temp_center_x = a.x_pos - a.temp_r;
+               float x_axisy = canvas_height - y_margin;
+               a.temp_center_y = (x_axisy - a.arc_len + x_axisy) /2;
+               float circumference = 2 * a.r * PI;
+               a.temp_portion = a.arc_len / circumference;
+               a.temp_start = -2 * PI * a.temp_portion/2;
+               a.temp_stop = 2 * PI * a.temp_portion/2;
+        } else {
+          state = "Bar";
+          break;
+        }
+       }
+     if (state == "Bar") {
+        growBar(); 
+     }
     }
+  }
+  void growBar()
+  {
+    int count = 0;
+      for(Bar b: Bar_List){
+         if(b.temp_w < b.bar_width) {
+           b.temp_x = b.temp_x - .5;
+           b.temp_w += 1;            
+         } else {
+           count++;
+         }
+      }
+         
+    int grew = 0;
+    if(count == Bar_List.size()){
+         for(Bar b: Bar_List){
+           if(b.bar_temp_h < b.bar_height){
+            b.temp_y -= 2;  
+            b.bar_temp_h += 2; 
+           } else {
+             grew++;
+           }
+         }
+      }
+      if(grew == Bar_List.size()){
+          resettransitions();
+      }
   }
   float get_sum(){
     float sum = 0;
