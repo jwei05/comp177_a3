@@ -72,6 +72,7 @@ void parseData() {
   String[] lines = loadStrings("./data.csv");
   hours = new int[lines.length -1];
   temperatures = new float[lines.length -1];
+  
   for (int i = 1; i < lines.length; i++) {
     String[] data = split(lines[i], ",");
     String[] time = split(data[0], ":");
@@ -126,7 +127,10 @@ void resettransitions(){
   data_g.growBar = false;
   data_g.toArc = false;
   data_g.moveArcs = false;
+
+  ArrayList<Arc> temp_arclist = data_g.Arc_List;
+  for(Arc a : temp_arclist) {
+     a.translate = false;
+     a.completePie = false;
+  }  
 }
-
-
-  

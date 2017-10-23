@@ -106,7 +106,7 @@ class Graph{
       Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos);
       start_angle += curr_angle;
       //A.calc_arctopie_pos();
-      
+      //A.completePie = true;
       //populate arrays
       Arc_List.add(A);
       Bar_List.add(B);
@@ -330,10 +330,25 @@ class Graph{
        }
      }
      //draw the lines for the wedges
+     int count = 0;
      if (num_arcs == 0){
-       
-       
+       for (Arc a : Arc_List) {
+          line(a.arc_start_x, a.arc_start_y, a.center_x, a.center_y);
+          count++; 
+       }
      }
+     
+     int countt = 0;
+     if (count == Arc_List.size()) {
+       for(Arc a : Arc_List) {
+           a.completePie = true; 
+           countt++;
+       }
+     }
+     if(countt == Arc_List.size()){
+        resettransitions(); 
+     }
+     
   }
   
   float get_sum(){

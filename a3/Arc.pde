@@ -26,7 +26,8 @@ class Arc{
 
   float accum_angle;
   float temp_angle;
-  boolean translate;
+  boolean translate = false;
+  boolean completePie = false;
 
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
@@ -38,22 +39,28 @@ class Arc{
      getArcLen();
      x_pos = bar_x_pos;
      y_pos = bar_y_pos;
-     init_temps();    
+     init_temps();
   }
   
   void drawArc(){
      ellipseMode(CENTER);
      noFill();
-     if (translate) {
-       pushMatrix();
-       translate(arc_mid_x, arc_mid_y);
-       rotate( -temp_angle);
-       arc(arc_cent_xpos - arc_mid_x, arc_cent_ypos - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
-       popMatrix();
-     }
-     else {
-       arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
-     }
+     if(!completePie){
+       println("
+       if (translate) {
+         pushMatrix();
+         translate(arc_mid_x, arc_mid_y);
+         rotate( -temp_angle);
+         arc(arc_cent_xpos - arc_mid_x, arc_cent_ypos - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
+         popMatrix();
+       }
+       else {
+         arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
+       }
+    } else {
+        println("actual pie");
+        arc(center_x, center_y, r*2, r*2, start, stop); 
+    }
   }
   
   void getArcLen() {
@@ -79,10 +86,13 @@ class Arc{
       arc_cent_xpos = arc_mid_x - r; 
       arc_cent_ypos = arc_mid_y;
       accum_angle = Accum_Angle;
-      //arc_start_x = 
-      //arc_start_y =
-      //arc_end_x = 
-      //arc_end_y =
+      float curr_angle = 2 * PI * portion;
+      
+      //start and end of the arc on the pie
+      arc_start_x = center_x + r * cos(Accum_Angle - curr_angle/2);
+      arc_start_y = center_y - r * sin(Accum_Angle - curr_angle/2);
+      arc_end_x = center_x + r * cos(Accum_Angle + curr_angle/2);
+      arc_end_y = center_y - r * sin(Accum_Angle + curr_angle/2);
 
   }
   
