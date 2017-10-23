@@ -108,6 +108,7 @@ void init_graph(){
   float y_num_marks = y_axis_len/y_spacing;
   float x_unit_len = x_axis_len / (hours.length + 1);
   float y_unit_len = y_num_marks*y_spacing / max(temperatures);
+  
   data_g = new Graph(x_margin, y_margin, x_axis_len, y_axis_len, 
                    x_unit_len, y_unit_len, "Bar");
   

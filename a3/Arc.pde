@@ -31,9 +31,9 @@ class Arc{
   boolean translate = false;
   boolean completePie = false;
   boolean trans_frompie = false;
-
+  color c;
   
-  public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
+  public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos, color colr){
      center_x = x;
      center_y = y;
      r = .4 * min(canvas_height, canvas_width);
@@ -45,6 +45,7 @@ class Arc{
      x_pos = bar_x_pos;
      y_pos = bar_y_pos;
      init_temps();
+     c = colr;
   }
   
   void drawArc(){
@@ -63,7 +64,7 @@ class Arc{
        }
     } else {
        // draw the real pie
-        fill(123);
+        fill(c);
         arc(center_x, center_y, perm_r*2, perm_r*2, start, stop, PIE); 
         //}   
     }

@@ -12,9 +12,10 @@ class Bar{
    float bar_id; //corresponds to the hour
    float data_x;
    float data_y;
+   int c;
    
    public Bar(float _x_pos, float _y_pos, float bar_w, float bar_h, float bar_v,
-                                       float x, float y) {
+                                       float x, float y, int colr) {
           x_pos = _x_pos;
           y_pos = _y_pos;
           temp_x = _x_pos;
@@ -26,9 +27,11 @@ class Bar{
           data_x = x;
           data_y = y;
           bar_temp_h = bar_height;
+          c = colr;
    }
    
    void drawBar() {
+      fill(c);
        rect(temp_x, temp_y, temp_w, bar_temp_h);
    }
   

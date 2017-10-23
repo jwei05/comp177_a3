@@ -21,6 +21,9 @@ class Graph{
   boolean growBar = false;
   boolean toArc = false;
   boolean moveArcs = false;
+  int r;
+  int g;
+  int b;
   
   public Graph(float x_start, float y_start, float x_len, float y_len,
                                   float x_unit, float y_unit, String st){
@@ -37,8 +40,10 @@ class Graph{
   }
   
   public void drawGraph(){
+
   //draw the axis
     if (state != "Pie"){
+      
       drawaxis();
     }
     if (state == "Line") {
@@ -95,15 +100,19 @@ class Graph{
       y_pos= canvas_height - y_margin - temperatures[i]*y_unit_l;
       h = temperatures[i] * y_unit_l -1;
       w = 0.66 * x_unit_l;
+      r = (int) (Math.random() * 254 -1);
+      g = (int) (Math.random() * 254 -1);
+      b = (int) (Math.random() * 254 -1);
       
       Bar B = new Bar(x_pos, y_pos, w, h, temperatures[i], 
-                       (x_pos + w + x_pos)/2, y_pos);
-      Point P = new Point((x_pos + w + x_pos)/2, y_pos, temperatures[i], hours[i]);
+                       (x_pos + w + x_pos)/2, y_pos, color(r,g,b));
+      Point P = new Point((x_pos + w + x_pos)/2, y_pos, temperatures[i], hours[i], color(r,g,b));
       
       //Calculate values to populate arc object
       float curr_angle = 2 * PI * (temperatures[i]/sum);
       float portion = temperatures[i]/sum;
-      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos);
+      Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos,
+      color(r,g,b));
       start_angle += curr_angle;
       //A.calc_arctopie_pos();
       //A.completePie = true;
@@ -264,11 +273,9 @@ class Graph{
      }
      //curves all the arc
      if (toArc){
-         println( "SHOUL");
          state = "Pie";
          for (Arc a : Arc_List) {
            if (a.temp_r > a.perm_r) {
-             println("::: " + a.temp_r + " " + a.perm_r);
              a.temp_r -= 100;
              a.temp_center_x = a.x_pos - a.temp_r;
              float x_axis_y = canvas_height - y_margin;
