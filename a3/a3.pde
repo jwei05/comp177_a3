@@ -62,9 +62,9 @@ void updateGraph(){
   if(bar_to_pie == true) {
     data_g.bar_pie();
   }
-  //if(pie_to_bar == true) {
-  //  data_g.pie_bar(); 
-  //}
+  if(pie_to_bar == true) {
+    data_g.pie_bar(); 
+  }
   
 }
 
@@ -131,6 +131,6 @@ void resettransitions(){
   ArrayList<Arc> temp_arclist = data_g.Arc_List;
   for(Arc a : temp_arclist) {
      a.translate = false;
-     //a.completePie = ;
+    //a.completePie = false;
   }  
 }

@@ -29,7 +29,9 @@ class Arc{
   float temp_angle;
   boolean translate = false;
   boolean completePie = false;
+  boolean trans_frompie = false;
 
+  
   public Arc(float x, float y, float Start, float End, float Portion, float bar_x_pos, float bar_y_pos){
      center_x = x;
      center_y = y;
@@ -49,17 +51,19 @@ class Arc{
      if(!completePie){
        if (translate) {
          pushMatrix();
-         translate(arc_mid_x, arc_mid_y);
+         translate(arc_mid_x, arc_mid_y);      
          rotate( -temp_angle);
          arc(arc_cent_xpos - arc_mid_x, arc_cent_ypos - arc_mid_y, temp_r*2, temp_r*2, temp_start, temp_stop);
          popMatrix();
        }
        else {
-         arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop); 
+         arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop);  
        }
     } else {
         fill(123);
-        arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
+        //if(completePie){
+          arc(center_x, center_y, r*2, r*2, start, stop, PIE); 
+        //}   
     }
   }
   

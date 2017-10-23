@@ -317,6 +317,7 @@ class Graph{
        }
      }
      
+     //rotate the arcs
      if (num_arcs == 0) {
        num_arcs = Arc_List.size();
        for(int i = 0; i < Arc_List.size(); i++){
@@ -350,7 +351,50 @@ class Graph{
      }
      
   }
-  
+  //pie to bar transition
+  void pie_bar() {
+    int count = 0;
+    for( Arc a : Arc_List) {
+       a.completePie = false;
+       a.translate = true;
+       if ( a.temp_angle > 0 ) {
+          a.temp_angle -= (PI/100); 
+       } else {
+         count++;
+       }
+    }
+    int num_arc = Arc_List.size();
+    //move the curves back to their bar position
+    if (count == Arc_List.size()){
+      for(Arc a : Arc_List) {
+          float x_dist =  a.center_x - a.temp_center_x;
+          float y_dist = a.center_y - a.temp_center_y;
+          println("xd: " +  x_dist + " yd: " + y_dist);
+          if (x_dist > 0) {
+            if (a.temp_center_x < a.center_x ) {
+              a.temp_center_x +=1;
+            }
+          } else {
+            if (a.temp_center_x > a.center_x ) {
+              a.temp_center_x -=1;
+            }
+          }
+          if (y_dist < 0) {
+            if (a.temp_center_y < a.center_y ) {
+              a.temp_center_y +=1;
+            }
+          } else {
+            if (a.temp_center_y > a.center_y ) {
+              a.temp_center_y -=1;
+            }
+          }
+          if (abs(x_dist) < 1 && abs(y_dist) < 1) {
+            num_arc -= 1;
+          }
+          
+      }
+    }
+  }
   float get_sum(){
     float sum = 0;
     for (int i = 0; i < temperatures.length; i++) {
