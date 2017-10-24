@@ -21,6 +21,8 @@ class Graph{
   boolean growBar = false;
   boolean toArc = false;
   boolean moveArcs = false;
+  boolean line_bar_finished = false; // TODO: where to reset?
+  boolean pie_bar_finished = false; // TODO: where to reset?
   int r;
   int g;
   int b;
@@ -177,7 +179,7 @@ class Graph{
         line(curr_x, curr_y, next_x, next_y);
      }
   }
-  void line_bar(){
+  void line_bar(boolean toPie){
     Bar model_b = Bar_List.get(0);
     Point model_p = Point_List.get(0);
     float bar_w = model_b.bar_width;
@@ -213,7 +215,12 @@ class Graph{
     //reset when all bars reach their full height
     if (total_bars == 0) {
       resettransitions(); 
+      if (toPie){
+        bar_to_pie = true;
+      }
     }
+    
+    
   }
   
   //transition from bar to line
@@ -245,6 +252,7 @@ class Graph{
   
   //transition from bar to pie
   void bar_pie(){
+     println("do you ever get here?");
     // shrink all the bars to arc's length
     int num_bars = Bar_List.size();
     int size = Bar_List.size();
@@ -363,7 +371,7 @@ class Graph{
   
   
   //pie to bar transition
-  void pie_bar() {
+  void pie_bar(boolean toLine) {
     int count = 0;
     for( Arc a : Arc_List) {
        a.completePie = false;
@@ -432,11 +440,12 @@ class Graph{
         }
        }
      if (state == "Bar") {
-        growBar(); 
+        growBar(toLine); 
      }
     }
   }
-  void growBar()
+  
+  void growBar(boolean toLine)
   {
     int count = 0;
       for(Bar b: Bar_List){
@@ -461,6 +470,9 @@ class Graph{
       }
       if(grew == Bar_List.size()){
           resettransitions();
+          if (toLine) {
+            bar_to_line = true;
+          }
       }
   }
   float get_sum(){

@@ -52,18 +52,29 @@ void draw() {
 }
 
 void updateGraph(){
-  if(bar_to_line == true) {
+  if(bar_to_line) {
     //println("2nd");
      data_g.bar_line();
   }
-  if(line_to_bar == true) {
-    data_g.line_bar();
+  if(line_to_bar) {
+    data_g.line_bar(false);
   }
-  if(bar_to_pie == true) {
+  if(bar_to_pie) {
     data_g.bar_pie();
   }
-  if(pie_to_bar == true) {
-    data_g.pie_bar(); 
+  if(pie_to_bar) {
+    data_g.pie_bar(false); 
+  }
+  if (line_to_pie) {
+    data_g.line_bar(true);
+    // then
+  }
+  if (pie_to_line) {
+    data_g.pie_bar(true);
+    // then
+    //if (data_g.pie_bar_finished) {
+    //  data_g.bar_line();
+    //}
   }
   
 }
