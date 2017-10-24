@@ -63,10 +63,8 @@ class Arc{
          arc(temp_center_x, temp_center_y, temp_r*2, temp_r*2, temp_start, temp_stop);  
        }
     } else {
-       // draw the real pie
         fill(c);
-        arc(center_x, center_y, perm_r*2, perm_r*2, start, stop, PIE); 
-        //}   
+        arc(center_x, center_y, perm_r*2, perm_r*2, start, stop, PIE);  
     }
   }
   
@@ -100,8 +98,5 @@ class Arc{
       arc_start_y = center_y - r * sin(Accum_Angle - curr_angle/2);
       arc_end_x = center_x + r * cos(Accum_Angle + curr_angle/2);
       arc_end_y = center_y - r * sin(Accum_Angle + curr_angle/2);
-
-  }
-  
-  
+  } 
 }

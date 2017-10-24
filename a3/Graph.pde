@@ -21,8 +21,8 @@ class Graph{
   boolean growBar = false;
   boolean toArc = false;
   boolean moveArcs = false;
-  boolean line_bar_finished = false; // TODO: where to reset?
-  boolean pie_bar_finished = false; // TODO: where to reset?
+  boolean line_bar_finished = false; 
+  boolean pie_bar_finished = false; 
   int r;
   int g;
   int b;
@@ -44,8 +44,7 @@ class Graph{
   public void drawGraph(){
 
   //draw the axis
-    if (state != "Pie"){
-      
+    if (state != "Pie"){   
       drawaxis();
     }
     if (state == "Line") {
@@ -62,13 +61,10 @@ class Graph{
     //x axis
     line(x_margin, canvas_height - y_margin, canvas_width - x_margin,
                                            canvas_height - y_margin);
-   //line(x_margin, canvas_height - y_margin, x_ax_l + x_margin,
-   //                                         canvas_height - y_margin);
     //y axis
     line(x_margin, canvas_height - y_margin, x_margin, y_margin); 
     
-    //draw increments
-    // x label
+    //draw increment on x label
     for (int i = 0; i < hours.length; i++) {
       float curr_x = x_margin + (i+1)*x_unit_l;
       float curr_y = canvas_height - y_margin;
@@ -76,7 +72,7 @@ class Graph{
       textSize(12);
       text(hours[i], x_margin + (i+1)*x_unit_l, canvas_height - y_margin + 15);
     }
-    // y label
+    // draw increment on y label
     for (int i = 0; i < (int)y_num_marks; i++) {
       float curr_x = x_margin;
       float curr_y = canvas_height - y_margin - (i+1)*y_spacing;
@@ -116,14 +112,11 @@ class Graph{
       Arc A = new Arc(pie_centerx, pie_centery, start_angle, start_angle + curr_angle, portion, (x_pos + w + x_pos)/2, y_pos,
       color(r,g,b));
       start_angle += curr_angle;
-      //A.calc_arctopie_pos();
-      //A.completePie = true;
-      //populate arrays
       Arc_List.add(A);
       Bar_List.add(B);
       Point_List.add(P);
     } 
-    //popoulates arc class with the position it should be on the pie
+    //populates arc class with the position it should be on the pie
       float accum_angle = 0;
       for (int i = 0; i < Arc_List.size(); i++) {
         Arc c = Arc_List.get(i);
@@ -136,7 +129,6 @@ class Graph{
         } else {
           c.calc_arctopie_pos(accum_angle); 
         }
-           //line(c.arc_cent_xpos, c.arc_cent_ypos, c.arc_mid_x, c.arc_mid_y);
       }
   }
   
@@ -149,7 +141,6 @@ class Graph{
   void drawArcs(){
     for(Arc a : Arc_List){
        a.drawArc(); 
-       //line(a.arc_cent_xpos, a.arc_cent_ypos, a.arc_mid_x, a.arc_mid_y);
     }
   }
   
@@ -180,12 +171,6 @@ class Graph{
      }
   }
   void line_bar(boolean toPie){
-    Bar model_b = Bar_List.get(0);
-    Point model_p = Point_List.get(0);
-    float bar_w = model_b.bar_width;
-    float x, y, h;
-    float w = model_p.pt_dimension;
-    
     //disconnect all points
     if (state == "Line") {
       drawPoints(false);
@@ -252,7 +237,6 @@ class Graph{
   
   //transition from bar to pie
   void bar_pie(){
-     println("do you ever get here?");
     // shrink all the bars to arc's length
     int num_bars = Bar_List.size();
     int size = Bar_List.size();
@@ -301,7 +285,6 @@ class Graph{
      
      int num_arcs = Arc_List.size();
      if (moveArcs == true) {
-       println("MOVE ARC");
        // move the arcs!!
        for( int i = 0; i < Arc_List.size(); i++) {
           Arc temp = Arc_List.get(i);
@@ -390,14 +373,11 @@ class Graph{
       for(int i = 0; i< Arc_List.size(); i++) {
         Arc a = Arc_List.get(i);
         a.translate = false;
-        //println("BAR: " + (b.x_pos + b.x_pos + b.bar_width)/2 + " " + (b.y_pos + b.bar_height));
         float x_destination = a.x_pos - a.r;
         float y_destination = x_axis_y - a.arc_len/2;
-        //println("x, y des ", x_destination + a.r, y_destination);
         float x_dist = x_destination - a.temp_center_x;
         float y_dist = y_destination - a.temp_center_y;
         
-        //println("x y dist" + x_dist + " " + y_dist);
         if (x_dist > 0) {
           if (a.temp_center_x < x_destination ) {
             a.temp_center_x +=1;

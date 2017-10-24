@@ -15,7 +15,6 @@ float x_margin;
 float y_margin;
 static int y_spacing = 25;
 
-
 //button states 
 boolean pie_to_line, line_to_pie, line_to_bar, bar_to_line,
         bar_to_pie, pie_to_bar = false;
@@ -46,14 +45,10 @@ void draw() {
   renderButtons();
   updateGraph();
   data_g.drawGraph();
-  
-
-  //renderChart();
 }
 
 void updateGraph(){
   if(bar_to_line) {
-    //println("2nd");
      data_g.bar_line();
   }
   if(line_to_bar) {
@@ -67,14 +62,9 @@ void updateGraph(){
   }
   if (line_to_pie) {
     data_g.line_bar(true);
-    // then
   }
   if (pie_to_line) {
     data_g.pie_bar(true);
-    // then
-    //if (data_g.pie_bar_finished) {
-    //  data_g.bar_line();
-    //}
   }
   
 }
@@ -139,11 +129,9 @@ void resettransitions(){
   data_g.growBar = false;
   data_g.toArc = false;
   data_g.moveArcs = false;
-  
-
+ 
   ArrayList<Arc> temp_arclist = data_g.Arc_List;
   for(Arc a : temp_arclist) {
      a.translate = false;
-     //a.completePie = false;
   }  
 }
